@@ -40,4 +40,12 @@ function m.analyzeRoutes(directory)
     return routes
 end
 
+function m.getMachineId()
+    local handle = io.popen("cat /etc/machine-id")
+    local result = handle:read("*a")
+    handle:close()
+
+    return result
+end
+
 return m

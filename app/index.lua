@@ -10,6 +10,14 @@ local utils = require('utils');
 local markdown = require "markdown"
 --markdown(source)
 
+function app:default_route()
+    ngx.log(ngx.WARN, "User hit unknown path " .. self.req.parsed_url.path)
+    return lapis.Application.default_route(self)
+end
+
+--
+--
+--
 function app:handle_404()
     return {
         status = 404,
@@ -18,17 +26,19 @@ function app:handle_404()
     }
 end
 
+--
+--
+--
 app:get("/", function(self)
     return to_json({})
 end)
 
+--
+-- Load route handlers from the filesystem
+--
 local routes = utils.analyzeRoutes('./api')
 
 for _, route in ipairs(routes) do
-    --[[app:match(route.routePath, function(self)
-        return self.req.parsed_url.path
-    end)]]
-
     app:match(route.routePath, respond_to(
             {
                 [route.method] = require(route.handler)
@@ -60,4 +70,7 @@ app:match("/api/*", function(self)
     }
 end)]]
 
+--
+-- Start the server
+--
 lapis.serve(app)
