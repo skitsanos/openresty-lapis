@@ -5,6 +5,9 @@ WORKDIR /app
 RUN apt update -y && apt upgrade -y
 RUN apt install libssl-dev wget zip unzip jq -y
 
+# In case if we need to build Lua modules with rust:
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
 RUN wget -O /usr/local/openresty/lualib/dkjson.lua http://dkolf.de/src/dkjson-lua.fsl/raw/dkjson.lua?name=6c6486a4a589ed9ae70654a2821e956650299228
 
 RUN opm get bungle/lua-resty-jq
