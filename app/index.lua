@@ -46,30 +46,6 @@ for _, route in ipairs(routes) do
     ))
 end
 
---[[
-app:match("wildcard", '/*', function(self)
-    --if it is not /api, do something else
-    local req_path = self.params.splat:gsub("%/", ".") .. '.index'
-
-    return to_json(utils.analyzeRoutes('./api'))
-
-    --return require(req_path)(self)
-
-    --return markdown('### hello ' .. self.req.parsed_url.path .. '--' .. req_path)
-end)
-]]
-
-
---[[--https://leafo.net/lapis/reference/actions.html#handling-http-verbs
-app:match("/api/*", function(self)
-    --ngx.header['Content-Type'] = 'application/json'
-    --ngx.status = code
-    return {
-        status = 200,
-        json = self.params
-    }
-end)]]
-
 --
 -- Start the server
 --
