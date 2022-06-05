@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  openresty-dev:
+    container_name: openresty-lapis
+    image: skitsanos/openresty-lapis
+    volumes:
+      - ./app:/app
+      - ./nginx/conf:/usr/local/openresty/nginx/conf
+    ports:
+      - "8888:80"
