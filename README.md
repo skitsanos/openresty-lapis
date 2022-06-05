@@ -1,5 +1,11 @@
 # OpenResty-Lapis Template
 
+The idea behind this template is to allow developers to skip setting up the complex development environment and simplify request routing while developing APIs or websites running on OpenResty.
+
+> **OpenResty**® is designed to build scalable web applications, web services, and dynamic web gateways. The OpenResty architecture is based on several nginx modules which have been extended in order to expand nginx into a web app server to handle a large number of requests. The concept of the OpenResty solution aims to run a server-side web app completely in the nginx server, leveraging the nginx event model to do non-blocking I/O not only with the HTTP clients, but also with remote backends like MySQL, PostgreSQL, Memcached, and Redis
+
+As a route handler and web framework in general, [Lapis](https://leafo.net/lapis/) is used as a core. Lapis is a framework for building web applications using [MoonScript](https://moonscript.org/) or [Lua](https://lua.org/) that runs inside of OpenResty.
+
 ### Minimal nginx.conf
 
 All you need to start developing with this template is actually ... nothing. Minimal `nginx.conf` is already provided for you:
@@ -38,6 +44,28 @@ http {
 Notice `lua_code_cache off;` bit. It allows you to keep modifying your code without the need to restart the OpenResty server, on the live server you will need to switch it on.
 
 When turning off, every request served by ngx_lua will run in a separate Lua VM instance, starting from the 0.9.3 release. So the Lua files referenced in set_by_lua_file, content_by_lua_file, access_by_lua_file, etc will not be cached and all Lua modules used will be loaded from scratch. With this in place, developers can adopt an edit-and-refresh approach.
+
+### Running in Docker
+
+For your convenience, there are `Dokerfile` and `docker-compose.yml` both provided, so you can either grab your image from the registry as `skitsanos/openresty-lapis` or rebuild your own.
+
+To run the whole thing in docker, you need just a few lines to be set: mount `nginx.conf` and the `app` folder where your code is.
+
+```yaml
+version: "3.9"
+
+services:
+  openresty-dev:
+    container_name: openresty-lapis
+    image: skitsanos/openresty-lapis
+    volumes:
+      - ./app:/app
+      - ./nginx/conf:/usr/local/openresty/nginx/conf
+    ports:
+      - "8888:80"
+```
+
+
 
 ### Creating your first API endpoint
 
