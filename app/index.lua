@@ -6,9 +6,11 @@ local lapis = require("lapis")
 local respond_to = require("lapis.application").respond_to
 local app = lapis.Application()
 local to_json = require("lapis.util").to_json --https://leafo.net/lapis/reference/utilities.html
-local utils = require('utils');
-local markdown = require "markdown"
+local routeBuilder = require('route-builder')
+--local markdown = require "markdown"
 --markdown(source)
+
+print('booting..')
 
 function app:default_route()
     ngx.log(ngx.WARN, "User hit unknown path " .. self.req.parsed_url.path)
@@ -16,7 +18,7 @@ function app:default_route()
 end
 
 --
---
+-- Handle 404 (Not Found) errors
 --
 function app:handle_404()
     return {
@@ -33,17 +35,17 @@ app:get("/", function(self)
     return to_json({})
 end)
 
---
+--[[app:match('/api/users/:userId', respond_to({
+    ['DELETE'] = require('api.users.$id.delete')
+}
+))
+--]]
 -- Load route handlers from the filesystem
 --
-local routes = utils.analyzeRoutes('./api')
+local routes = routeBuilder.analyzeRoutes('./api')
 
-for _, route in ipairs(routes) do
-    app:match(route.routePath, respond_to(
-            {
-                [route.method] = require(route.handler)
-            }
-    ))
+for routePath, routeResponder in pairs(routes) do
+    app:match(routePath, respond_to(routeResponder))
 end
 
 --

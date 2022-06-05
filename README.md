@@ -84,14 +84,12 @@ Because `Lapis` is using a naming convention with the path parameters that conta
 In `app/index.lua` you will find also route loader:
 
 ```lua
-local routes = utils.analyzeRoutes('./api')
+local routeBuilder = require('route-builder')
 
-for _, route in ipairs(routes) do
-    app:match(route.routePath, respond_to(
-            {
-                [route.method] = require(route.handler)
-            }
-    ))
+local routes = routeBuilder.analyzeRoutes('./api')
+
+for routePath, routeResponder in pairs(routes) do
+    app:match(routePath, respond_to(routeResponder))
 end
 ```
 
