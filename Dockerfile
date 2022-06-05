@@ -20,7 +20,6 @@ RUN wget https://luarocks.org/releases/luarocks-3.9.0.tar.gz  \
 RUN luarocks install lapis
 RUN luarocks install markdown
 
-#RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 #RUN cargo install walkdir
 
 #COPY ./nginx /usr/local/openresty/nginx
