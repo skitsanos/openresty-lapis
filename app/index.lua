@@ -7,7 +7,7 @@ local respond_to = require("lapis.application").respond_to
 local app = lapis.Application()
 local to_json = require("lapis.util").to_json --https://leafo.net/lapis/reference/utilities.html
 local routeBuilder = require('route-builder')
---local markdown = require "markdown"
+local markdown = require "markdown"
 --markdown(source)
 
 print('booting..')
@@ -24,7 +24,7 @@ function app:handle_404()
     return {
         status = 404,
         layout = false,
-        "Not Found!"
+        markdown('### Not Found!\n\n'..'The page you are looking for can not be found')
     }
 end
 
