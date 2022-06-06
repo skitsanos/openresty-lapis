@@ -20,8 +20,6 @@ RUN wget https://luarocks.org/releases/luarocks-3.9.0.tar.gz  \
 RUN luarocks install lapis
 RUN luarocks install markdown
 
-#RUN cargo install walkdir
-
-#COPY ./nginx /usr/local/openresty/nginx
+ENV PATH="$PATH:/root/.cargo/bin"
 
 EXPOSE 80
