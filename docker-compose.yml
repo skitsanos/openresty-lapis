@@ -6,6 +6,7 @@ services:
     image: skitsanos/openresty-lapis
     volumes:
       - ./app:/app
+      - ./data:/data
       - ./nginx/conf:/usr/local/openresty/nginx/conf
     ports:
       - "8888:80"

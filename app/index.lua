@@ -2,6 +2,8 @@
 --http://lua-users.org/wiki/JsonModules
 --https://github.com/bungle/lua-resty-jq
 
+--rawset(_G, 'lpeg', false)
+
 local lapis = require("lapis")
 local respond_to = require("lapis.application").respond_to
 local app = lapis.Application()
@@ -9,8 +11,6 @@ local to_json = require("lapis.util").to_json --https://leafo.net/lapis/referenc
 local routeBuilder = require('route-builder')
 local markdown = require "markdown"
 --markdown(source)
-
-print('booting..')
 
 function app:default_route()
     ngx.log(ngx.WARN, "User hit unknown path " .. self.req.parsed_url.path)
@@ -45,6 +45,12 @@ end)
 local routes = routeBuilder.analyzeRoutes('./api')
 
 for routePath, routeResponder in pairs(routes) do
+    app:match(routePath, respond_to(routeResponder))
+end
+
+local routesBlog = routeBuilder.analyzeRoutes('./blog')
+
+for routePath, routeResponder in pairs(routesBlog) do
     app:match(routePath, respond_to(routeResponder))
 end
 
