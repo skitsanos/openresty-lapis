@@ -9,7 +9,7 @@ local respond_to = require("lapis.application").respond_to
 local app = lapis.Application()
 local to_json = require("lapis.util").to_json --https://leafo.net/lapis/reference/utilities.html
 local routeBuilder = require('route-builder')
-local markdown = require "markdown"
+local markdown = require "_lib.md"
 --markdown(source)
 
 function app:default_route()

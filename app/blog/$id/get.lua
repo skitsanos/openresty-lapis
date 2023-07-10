@@ -1,6 +1,6 @@
 local fs = require('_lib.fs')
 local md = require('_lib.md')
-local template = require('_lib.resty.template')
+local template = require('template')
 
 local m = function(self)
     if (self.params.id) then

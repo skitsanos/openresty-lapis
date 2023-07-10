@@ -1,0 +1,17 @@
+version: 3
+
+tasks:
+  build:
+    cmds:
+      - cmd: |
+          docker build {{.CLI_ARGS}} --progress plain -t skitsanos/openresty-lapis .
+
+  publish:
+    cmds:
+      - cmd: |
+          docker push skitsanos/openresty-lapis
+
+  run:
+    cmds:
+      - cmd: |
+          docker run --rm -it -p 8888:80 -v $(pwd)/app:/app -v $(pwd)/data:/data -v $(pwd)/nginx/conf:/usr/local/openresty/nginx/conf "skitsanos/openresty-lapis"
